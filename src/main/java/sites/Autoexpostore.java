@@ -6,6 +6,7 @@ import com.applitools.eyes.RectangleSize;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -38,18 +39,16 @@ public class Autoexpostore {
     }
 
     @Test
-    public void correctCredentials() {
-        eyes.open(driver,"test app", "CorrectCredentials", new RectangleSize(1300, 600));
-        driver.get("http://www.andreyb.ixloo.com/dms");
+    public void english_1650_650_HomePage() {
+        eyes.open(driver,"test app", "english_1650_650_part1", new RectangleSize(1650, 650));
+        driver.get("http://www.autoexpostore.com/");
         waitFullPageLoading();
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("document.querySelector(\"#login2\").style.background = \"red\"");
-        eyes.checkWindow("Before login");
-        driver.findElement(By.cssSelector("#login")).clear();
-        driver.findElement(By.cssSelector("#login")).sendKeys("dealerlogin");
-        driver.findElement(By.cssSelector("#password")).clear();
-        driver.findElement(By.cssSelector("#password")).sendKeys("000");
-        driver.findElement(By.cssSelector("#login2")).click();
+        eyes.checkWindow("Header");
+        scrollToElement(driver,driver.findElement(By.className(".home-about")));
+        eyes.checkWindow("AboutAutoExpo");
+        scrollToElement(driver,driver.findElement(By.className(".footer-list")));
+        eyes.checkWindow("Footer");
+
         waitFullPageLoading();
         eyes.checkWindow("After login");
         eyes.close();
@@ -84,6 +83,12 @@ public class Autoexpostore {
                 return (Boolean) js.executeScript("return jQuery.active == 0");
             }
         });
+    }
+
+    public static void scrollToElement(WebDriver driver, WebElement element){
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView()", element);
+        //js.executeScript("document.querySelector('.mcprt-link').scrollIntoView()"); way with hardcoding
     }
 
 
