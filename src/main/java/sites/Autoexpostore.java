@@ -69,6 +69,17 @@ public class Autoexpostore {
         eyes.close();
     }
 
+    @Test
+    public void english_Laptop_1650_650_Inventory() {
+        eyes.open(driver,"test app", "english_Laptop_1650_650_Inventory", new RectangleSize(1300, 600));
+        driver.get("http://www.autoexpostore.com/cars-for-sale.html");
+        //waitFullPageLoading();
+        eyes.checkWindow("Header");
+        scrollToElement(driver,driver.findElement(By.className("footer-list")));
+        eyes.checkWindow("Footer");
+        eyes.close();
+    }
+
     /*@Test
     public void spanish_Laptop_1650_650_HomePage() {
         eyes.open(driver,"test app", "spanish_Laptop_1650_650_HomePage", new RectangleSize(1300, 600));
