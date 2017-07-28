@@ -18,6 +18,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 /**
  * Created by Andrey on 24.07.2017.
  */
@@ -42,10 +45,10 @@ public class Autoexpostore {
     }
 
     @Test
-    public void english_Laptop_1650_650_HomePage() {
-        eyes.open(driver,"test app", "english_Laptop_1650_650", new RectangleSize(1300, 600));
+    public void english_Laptop_1300_600_HomePage() {
+        eyes.open(driver,"autoexpostore", "english_Laptop_1300_600", new RectangleSize(1300, 600));
         driver.get("http://www.autoexpostore.com/");
-        waitFullPageLoading();
+        //waitFullPageLoading();
         eyes.checkWindow("Header");
         scrollToElement(driver,driver.findElement(By.className("home-about")));
         eyes.checkWindow("About AutoExpo");
@@ -58,9 +61,9 @@ public class Autoexpostore {
 
     @Test
     public void english_GalaxyS5_360_640_HomePage() {
-        eyes.open(driver,"test app", "english_GalaxyS5_360_640_HomePage", new RectangleSize(360, 640));
+        eyes.open(driver,"autoexpostore", "english_GalaxyS5_360_640_HomePage", new RectangleSize(360, 640));
         driver.get("http://www.autoexpostore.com/");
-        waitFullPageLoading();
+        //waitFullPageLoading();
         eyes.checkWindow("Header");
         scrollToElement(driver,driver.findElement(By.className("home-about")));
         eyes.checkWindow("About AutoExpo");
@@ -70,12 +73,30 @@ public class Autoexpostore {
     }
 
     @Test
-    public void english_Laptop_1650_650_Inventory() {
-        eyes.open(driver,"test app", "english_Laptop_1650_650_Inventory", new RectangleSize(1300, 600));
+    public void english_Laptop_1300_600_Inventory() {
+        eyes.open(driver,"autoexpostore", "english_Laptop_1300_600_Inventory", new RectangleSize(1300, 600));
         driver.get("http://www.autoexpostore.com/cars-for-sale.html");
         //waitFullPageLoading();
         eyes.checkWindow("Header");
         scrollToElement(driver,driver.findElement(By.className("footer-list")));
+        eyes.checkWindow("Footer");
+        eyes.close();
+    }
+
+    @Test
+    public void english_Laptop_1300_600_Get_pre_approved()throws Exception {
+        eyes.open(driver,"autoexpostore", "english_Laptop_1300_600_Get_pre_approved", new RectangleSize(1300, 600));
+        driver.get("http://www.autoexpostore.com");
+        Thread.sleep(3000);
+        driver.findElements(By.cssSelector(".nav.navbar-nav>li")).get(10).click();
+        ArrayList<String> windows = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(windows.get(1));
+        Thread.sleep(3000);
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(".modul-r-iframe.nowow"))));
+        scrollToElement(driver,driver.findElement(By.cssSelector(".modul-r-iframe.nowow")));
+        Thread.sleep(5000);
+        eyes.checkWindow("Form");
+        scrollToElement(driver,driver.findElement(By.cssSelector("div[data-container = 'footer']")));
         eyes.checkWindow("Footer");
         eyes.close();
     }
