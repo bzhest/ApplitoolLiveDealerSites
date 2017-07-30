@@ -24,31 +24,18 @@ import java.util.Set;
 /**
  * Created by Andrey on 24.07.2017.
  */
-public class Autoexpostore {
-    private static BatchInfo batch;
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private Eyes eyes;
+public class Autoexpostore extends Base {
 
     @BeforeClass
-    public static void setBatch(){
+    public static void setBatch() {
         batch = new BatchInfo("Autoexpostore");
     }
 
-    @BeforeMethod
-    public void setup() {
-        driver = new ChromeDriver();
-        eyes = new Eyes();
-        eyes.setApiKey("42ocIyb2h7fn4sJyi0zODSOvI3glY118F26yVtRUB5c110");
-        eyes.setBatch(batch);
-        wait = new WebDriverWait(driver, 30);
-    }
-
     @Test
-    public void english_Laptop_1300_600_HomePage() {
-        eyes.open(driver,"autoexpostore", "english_Laptop_1300_600", new RectangleSize(1300, 600));
+    public void english_Laptop_HomePage() {
+        eyes.open(driver,"Autoexpostore", "english_Laptop", getScreenSize("Home"));
         driver.get("http://www.autoexpostore.com/");
-        //waitFullPageLoading();
+        waitFullPageLoading();
         eyes.checkWindow("Header");
         scrollToElement(driver,driver.findElement(By.className("home-about")));
         eyes.checkWindow("About AutoExpo");
@@ -61,7 +48,7 @@ public class Autoexpostore {
 
     @Test
     public void english_GalaxyS5_360_640_HomePage() {
-        eyes.open(driver,"autoexpostore", "english_GalaxyS5_360_640_HomePage", new RectangleSize(360, 640));
+        eyes.open(driver,"Autoexpostore", "english_GalaxyS5_HomePage", getScreenSize("Galaxy S5"));
         driver.get("http://www.autoexpostore.com/");
         //waitFullPageLoading();
         eyes.checkWindow("Header");
@@ -73,8 +60,8 @@ public class Autoexpostore {
     }
 
     @Test
-    public void english_Laptop_1300_600_Inventory() {
-        eyes.open(driver,"autoexpostore", "english_Laptop_1300_600_Inventory", new RectangleSize(1300, 600));
+    public void english_Laptop_Inventory() {
+        eyes.open(driver,"Autoexpostore", "english_Laptop_Inventory", getScreenSize("Home"));
         driver.get("http://www.autoexpostore.com/cars-for-sale.html");
         //waitFullPageLoading();
         eyes.checkWindow("Header");
@@ -84,8 +71,8 @@ public class Autoexpostore {
     }
 
     @Test
-    public void english_Laptop_1300_600_Get_pre_approved()throws Exception {
-        eyes.open(driver,"autoexpostore", "english_Laptop_1300_600_Get_pre_approved", new RectangleSize(1300, 600));
+    public void english_Laptop_Get_pre_approved()throws Exception {
+        eyes.open(driver,"Autoexpostore", "english_Laptop_Get_pre_approved", getScreenSize("Home"));
         driver.get("http://www.autoexpostore.com");
         Thread.sleep(3000);
         driver.findElements(By.cssSelector(".nav.navbar-nav>li")).get(10).click();
@@ -123,26 +110,7 @@ public class Autoexpostore {
 
 
 
-    @AfterMethod
-    public void teatDown() {
-        eyes.abortIfNotClosed();
-        driver.quit();
-    }
 
-    public void waitFullPageLoading() {
-        new WebDriverWait(driver, 10000).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver driver) {
-                JavascriptExecutor js = (JavascriptExecutor) driver;
-                return (Boolean) js.executeScript("return jQuery.active == 0");
-            }
-        });
-    }
-
-    public static void scrollToElement(WebDriver driver, WebElement element){
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView()", element);
-        //js.executeScript("document.querySelector('.mcprt-link').scrollIntoView()"); way with hardcoding
-    }
 
 
 }
